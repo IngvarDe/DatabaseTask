@@ -1,3 +1,4 @@
+using DatabaseTask.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,11 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
-//void ConfigureServices(IServiceCollection services)
-//{
-//    services.AddDbContext<DatabaseTaskDbContext>(options =>
-//        options.UseSqlServer(Microsoft.Extensions.Configuration.GetConnectionString("databasename")));
-//}
+builder.Services.AddDbContext<DatabaseTaskDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
