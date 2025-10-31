@@ -17,16 +17,25 @@ namespace DatabaseTask.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.11")
+                .HasAnnotation("ProductVersion", "8.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DatabaseTask.Core.Domain.Employee", b =>
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Artist", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("ArtistId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArtistId"));
+
+                    b.Property<string>("Biography")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BirthYear")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -36,9 +45,199 @@ namespace DatabaseTask.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Employee");
+                    b.HasKey("ArtistId");
+
+                    b.ToTable("Artists");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Artwork", b =>
+                {
+                    b.Property<int>("ArtworkId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArtworkId"));
+
+                    b.Property<int>("ArtistId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Dimensions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Medium")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ttile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("YearCreated")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtworkId");
+
+                    b.HasIndex("ArtistId");
+
+                    b.ToTable("Artworks");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Exhibition", b =>
+                {
+                    b.Property<int>("ExhibitionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExhibitionId"));
+
+                    b.Property<string>("Curator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GalleryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ExhibitionId");
+
+                    b.HasIndex("GalleryId");
+
+                    b.ToTable("Exhibitions");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.ExhibitionArtwork", b =>
+                {
+                    b.Property<int>("ExhibitionArtworkId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExhibitionArtworkId"));
+
+                    b.Property<int>("ArtworkId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExhibitionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ExhibitionArtworkId");
+
+                    b.HasIndex("ArtworkId");
+
+                    b.HasIndex("ExhibitionId");
+
+                    b.ToTable("ExhibitionArtworks");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Gallery", b =>
+                {
+                    b.Property<int>("GalleryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GalleryId"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("GalleryId");
+
+                    b.ToTable("Galleries");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Artwork", b =>
+                {
+                    b.HasOne("DatabaseTask.Core.Domain.Artist", "Artist")
+                        .WithMany("Artworks")
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Artist");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Exhibition", b =>
+                {
+                    b.HasOne("DatabaseTask.Core.Domain.Gallery", "Gallery")
+                        .WithMany("Exhibitions")
+                        .HasForeignKey("GalleryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gallery");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.ExhibitionArtwork", b =>
+                {
+                    b.HasOne("DatabaseTask.Core.Domain.Artwork", "Artwork")
+                        .WithMany("ExhibitionArtWorks")
+                        .HasForeignKey("ArtworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DatabaseTask.Core.Domain.Exhibition", "exhibition")
+                        .WithMany("ExhibitionArtworks")
+                        .HasForeignKey("ExhibitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Artwork");
+
+                    b.Navigation("exhibition");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Artist", b =>
+                {
+                    b.Navigation("Artworks");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Artwork", b =>
+                {
+                    b.Navigation("ExhibitionArtWorks");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Exhibition", b =>
+                {
+                    b.Navigation("ExhibitionArtworks");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Gallery", b =>
+                {
+                    b.Navigation("Exhibitions");
                 });
 #pragma warning restore 612, 618
         }
