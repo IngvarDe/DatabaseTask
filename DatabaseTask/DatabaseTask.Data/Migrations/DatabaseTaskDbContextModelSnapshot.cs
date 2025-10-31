@@ -22,302 +22,222 @@ namespace DatabaseTask.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DatabaseTask.Core.Domain.Absense", b =>
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Artist", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ArtistId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArtistId"));
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Biography")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GroupId")
+                    b.Property<int>("BirthYear")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("Absences");
-                });
-
-            modelBuilder.Entity("DatabaseTask.Core.Domain.Child", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("Children");
-                });
-
-            modelBuilder.Entity("DatabaseTask.Core.Domain.ChildGroupHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("ChildGroupsHistory");
-                });
-
-            modelBuilder.Entity("DatabaseTask.Core.Domain.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Salary")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("DatabaseTask.Core.Domain.Group", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ChildCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Nationality")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoomNr")
-                        .HasColumnType("int");
+                    b.HasKey("ArtistId");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Groups");
+                    b.ToTable("Artists");
                 });
 
-            modelBuilder.Entity("DatabaseTask.Core.Domain.JobTitle", b =>
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Artwork", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ArtworkId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArtworkId"));
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<int>("ArtistId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Dimensions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Medium")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ttile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("YearCreated")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtworkId");
+
+                    b.HasIndex("ArtistId");
+
+                    b.ToTable("Artworks");
+                });
+
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Exhibition", b =>
+                {
+                    b.Property<int>("ExhibitionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExhibitionId"));
+
+                    b.Property<string>("Curator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("GalleryId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasKey("ExhibitionId");
 
-                    b.ToTable("JobTitles");
+                    b.HasIndex("GalleryId");
+
+                    b.ToTable("Exhibitions");
                 });
 
-            modelBuilder.Entity("DatabaseTask.Core.Domain.Menu", b =>
+            modelBuilder.Entity("DatabaseTask.Core.Domain.ExhibitionArtwork", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ExhibitionArtworkId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExhibitionArtworkId"));
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Dinner")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DinnerSnack")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Lunch")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Morning")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MorningSnack")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Portions")
+                    b.Property<int>("ArtworkId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("ExhibitionId")
+                        .HasColumnType("int");
 
-                    b.ToTable("Menu");
+                    b.HasKey("ExhibitionArtworkId");
+
+                    b.HasIndex("ArtworkId");
+
+                    b.HasIndex("ExhibitionId");
+
+                    b.ToTable("ExhibitionArtworks");
                 });
 
-            modelBuilder.Entity("DatabaseTask.Core.Domain.Queue", b =>
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Gallery", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("GalleryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GalleryId"));
 
-                    b.Property<int>("ChildId")
-                        .HasColumnType("int");
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("RegDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ChildId");
+                    b.HasKey("GalleryId");
 
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("Queue");
+                    b.ToTable("Galleries");
                 });
 
-            modelBuilder.Entity("DatabaseTask.Core.Domain.Absense", b =>
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Artwork", b =>
                 {
-                    b.HasOne("DatabaseTask.Core.Domain.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
+                    b.HasOne("DatabaseTask.Core.Domain.Artist", "Artist")
+                        .WithMany("Artworks")
+                        .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Group");
+                    b.Navigation("Artist");
                 });
 
-            modelBuilder.Entity("DatabaseTask.Core.Domain.Child", b =>
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Exhibition", b =>
                 {
-                    b.HasOne("DatabaseTask.Core.Domain.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
+                    b.HasOne("DatabaseTask.Core.Domain.Gallery", "Gallery")
+                        .WithMany("Exhibitions")
+                        .HasForeignKey("GalleryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Group");
+                    b.Navigation("Gallery");
                 });
 
-            modelBuilder.Entity("DatabaseTask.Core.Domain.ChildGroupHistory", b =>
+            modelBuilder.Entity("DatabaseTask.Core.Domain.ExhibitionArtwork", b =>
                 {
-                    b.HasOne("DatabaseTask.Core.Domain.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
+                    b.HasOne("DatabaseTask.Core.Domain.Artwork", "Artwork")
+                        .WithMany("ExhibitionArtWorks")
+                        .HasForeignKey("ArtworkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Group");
+                    b.HasOne("DatabaseTask.Core.Domain.Exhibition", "exhibition")
+                        .WithMany("ExhibitionArtworks")
+                        .HasForeignKey("ExhibitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Artwork");
+
+                    b.Navigation("exhibition");
                 });
 
-            modelBuilder.Entity("DatabaseTask.Core.Domain.Employee", b =>
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Artist", b =>
                 {
-                    b.HasOne("DatabaseTask.Core.Domain.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Group");
+                    b.Navigation("Artworks");
                 });
 
-            modelBuilder.Entity("DatabaseTask.Core.Domain.JobTitle", b =>
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Artwork", b =>
                 {
-                    b.HasOne("DatabaseTask.Core.Domain.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
+                    b.Navigation("ExhibitionArtWorks");
                 });
 
-            modelBuilder.Entity("DatabaseTask.Core.Domain.Queue", b =>
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Exhibition", b =>
                 {
-                    b.HasOne("DatabaseTask.Core.Domain.Child", "Child")
-                        .WithMany()
-                        .HasForeignKey("ChildId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("ExhibitionArtworks");
+                });
 
-                    b.HasOne("DatabaseTask.Core.Domain.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Child");
-
-                    b.Navigation("Group");
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Gallery", b =>
+                {
+                    b.Navigation("Exhibitions");
                 });
 #pragma warning restore 612, 618
         }
